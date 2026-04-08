@@ -824,10 +824,21 @@
             expBox.innerHTML = (isCorrect ? '✓ ' : '✗ ') + explanation;
             document.getElementById('question-area').appendChild(expBox);
 
-            setTimeout(() => {
-                currentQ++;
-                showQuestion();
-            }, 2800);
+            // Botón de siguiente — el estudiante avanza cuando quiera
+            const isLast = currentQ >= questions.length - 1;
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = isLast ? 'Ver mi resultado →' : 'Siguiente pregunta →';
+            nextBtn.style.cssText = `
+                margin-top: 1.2rem; padding: 0.75rem 1.8rem;
+                background: var(--text-main); color: #fff; border: none;
+                border-radius: 50px; font-family: var(--font-ui); font-weight: 600;
+                font-size: 0.9rem; cursor: pointer; display: block;
+                transition: var(--transition); animation: fadeInReveal 0.4s forwards;
+            `;
+            nextBtn.onmouseover = () => nextBtn.style.background = 'var(--accent-narrador)';
+            nextBtn.onmouseout  = () => nextBtn.style.background = 'var(--text-main)';
+            nextBtn.onclick = () => { currentQ++; showQuestion(); };
+            document.getElementById('question-area').appendChild(nextBtn);
         }
 
         function showResult() {
